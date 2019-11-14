@@ -3,16 +3,28 @@ import {TodoListData} from '../dataTypes/TodoListData';
 import {TodoItemData} from '../dataTypes/TodoItemData';
 import {TodoService} from '../todo.service';
 
+type FCT_FILTER_ITEMS = (item : TodoItemData) => boolean;
+
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
+
 export class TodoListComponent implements OnInit {
 
-  @Input() 
-  private data: TodoListData;
+  filterAll: FCT_FILTER_ITEMS = () => true;
+  filterDone: FCT_FILTER_ITEMS = (item)=>item.isDone;
+  filterUnDone: FCT_FILTER_ITEMS = (item)=>!item.isDone;
+  currentFilter = this.filterAll;
+
+  getFilteredItems():TodoItemData[]{
+    return this.data ? this.data.items.filter(this.currentFilter) : [];
+  }
+
+  @Input() private data: TodoListData;
 
   private titre: string;
   
@@ -37,7 +49,7 @@ export class TodoListComponent implements OnInit {
   }
 
   clearCompletedToDos() {
-    
+    this.todoService.removeItems(...this.items.filter(this.filterDone));
   }
 
   isAllDone(): boolean {

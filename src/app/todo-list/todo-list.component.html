@@ -17,7 +17,7 @@
             (ngModelChange)="toggleAllDone()"
     />
     <ul class="todo-list">
-        <li  *ngFor="let item of items" [class.editing]="itemCompo.voirEdit" [class.completed]="item.isDone">
+        <li  *ngFor="let item of getFilteredItems()" [class.editing]="itemCompo.voirEdit" [class.completed]="item.isDone">
         <app-todo-item #itemCompo [data]="item"></app-todo-item>
         </li>
     </ul>
@@ -28,16 +28,23 @@
     <span class="todo-count" ><strong></strong> restantes</span>
     <ul class="filters">
       <li>
-        <a class="filterAll">Tous</a>
+        <a class="filterAll"
+        (click) = "currentFilter=filterAll"
+        [class.selected] = "currentFilter==filterAll"
+        >Tous</a>
       </li>
       <li>
-        <a class="filterActives">Actifs</a>
+        <a class="filterActives"
+        (click) = "currentFilter=filterUnDone"
+        [class.selected] = "currentFilter==filterUnDone">Actifs</a>
       </li>
       <li>
-        <a class="filterCompleted">Complétés</a>
+        <a class="filterCompleted"
+        (click) = "currentFilter=filterDone"
+        [class.selected] = "currentFilter==filterDone">Complétés</a>
       </li>
     </ul>
-    <button class="clear-completed" (click)="clearCompletedTodos()">Supprimer cochées</button>
+    <button class="clear-completed" (click)="clearCompletedToDos()">Supprimer cochées</button>
   </footer>
 </section>
 <hr/>
