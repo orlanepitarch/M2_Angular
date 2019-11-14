@@ -18,14 +18,14 @@
     />
     <ul class="todo-list">
         <li  *ngFor="let item of getFilteredItems()" [class.editing]="itemCompo.voirEdit" [class.completed]="item.isDone">
-        <app-todo-item #itemCompo [data]="item"></app-todo-item>
+          <app-todo-item #itemCompo [data]="item"></app-todo-item>
         </li>
     </ul>
   </section>
 
 
   <footer class="footer">
-    <span class="todo-count" ><strong></strong> restantes</span>
+    <span class="todo-count" ><strong>{{this.items.filter(this.filterUnDone).length}}</strong> restantes</span>
     <ul class="filters">
       <li>
         <a class="filterAll"
