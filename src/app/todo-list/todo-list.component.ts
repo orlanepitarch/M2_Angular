@@ -12,10 +12,13 @@ import {TodoService} from '../todo.service';
 export class TodoListComponent implements OnInit {
 
   @Input() 
-  
   private data: TodoListData;
+
+  private titre: string;
   
   constructor(private todoService: TodoService) { 
+    todoService.getTodoListDataObserver().subscribe(tdl => this.data = tdl);
+    this.titre = this.data.label;
   }
 
   ngOnInit() {
@@ -29,4 +32,20 @@ export class TodoListComponent implements OnInit {
     return this.data ? this.data.items : [];
   }
 
+  appendItem(label: string) {
+    this.todoService.appendItems({label, isDone:false});
+  }
+
+  clearCompletedToDos() {
+    
+  }
+
+  isAllDone(): boolean {
+    return this.items.every(it=>it.isDone);
+  }
+
+  toggleAllDone() {
+    const done=!this.isAllDone();
+    this.todoService.setItemsDone(done, ...this.items);
+  }
 }
