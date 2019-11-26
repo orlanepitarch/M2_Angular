@@ -1,6 +1,15 @@
 <section class="todoapp">
   <header class="header">
-    <h1>{{titre}}</h1>
+    <div [class.editing]="voirEditTitre">
+    <h1 *ngIf="!voirEditTitre" class="viewTitre" (dblclick)="voirEditTitre = true">{{title}}</h1>
+    <form *ngIf="voirEditTitre" (submit)="title=newTextInputTitre.value">
+      <input  #newTextInputTitre
+              name    = "newTextInputTitre"
+              class   = "editTitre"
+              [ngModel]="title"
+              (blur)="title=newTextInputTitre.value"/>
+    </form>
+</div>
     <form (submit)="appendItem( newTodoInput.value); newTodoInput.value=''">
       <input  #newTodoInput
               name        = "newTodoInput"

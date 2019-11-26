@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {TodoListData} from '../dataTypes/TodoListData';
 import {TodoItemData} from '../dataTypes/TodoItemData';
 import {TodoService} from '../todo.service';
@@ -26,8 +26,18 @@ export class TodoListComponent implements OnInit {
 
   @Input() private data: TodoListData;
 
+  @ViewChild("newTextInputTitre", {static:false}) private inputTitre:ElementRef;
+
   private titre: string;
+  private _voirEditTitre: boolean = false;
   
+  get voirEditTitre(): boolean {
+    return this._voirEditTitre;
+  }
+  set voirEditTitre(e:boolean) {
+    this._voirEditTitre = e;
+    requestAnimationFrame(()=>this.inputTitre.nativeElement.focus());
+  }
   constructor(private todoService: TodoService) { 
     todoService.getTodoListDataObserver().subscribe(tdl => this.data = tdl);
     this.titre = this.data.label;
@@ -36,8 +46,13 @@ export class TodoListComponent implements OnInit {
   ngOnInit() {
   }
 
-  get label(): string {
+  get title(): string {
     return this.data ? this.data.label : '';
+  } 
+
+  set title(lab:string){
+    this.todoService.setTitle(lab);
+    this._voirEditTitre=false;
   }
 
   get items(): TodoItemData[] {

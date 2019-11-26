@@ -46,4 +46,12 @@ export class TodoService {
     });
   }
 
+  setTitle(title:string) {
+    const tdl = this.todoListSubject.getValue();
+    this.todoListSubject.next( {
+      label: title,
+      items: tdl.items
+    });
+  }
+
 }
