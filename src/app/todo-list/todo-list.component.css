@@ -21,4 +21,14 @@ div.editing .viewTitre {
     display: none;
   }
 
+.delete-all {
+    position: absolute;
+    top: -55px;
+    right: 12px;
+    height: 28px;
+    width: 24px;
+    margin: auto;
+    border: none; /* Mobile Safari */
+    padding: 10px;
+}
   

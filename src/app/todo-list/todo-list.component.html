@@ -25,6 +25,7 @@
             [ngModel]="isAllDone()"
             (ngModelChange)="toggleAllDone()"
     />
+    <fa-icon class="delete-all" size="2x" [icon]="faTrashAlt" (click)="deleteAllItems()"></fa-icon>
     <ul class="todo-list">
         <li  *ngFor="let item of getFilteredItems()" [class.editing]="itemCompo.voirEdit" [class.completed]="item.isDone">
           <app-todo-item #itemCompo [data]="item"></app-todo-item>

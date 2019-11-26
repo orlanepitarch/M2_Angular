@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild, ElementRef
 import {TodoListData} from '../dataTypes/TodoListData';
 import {TodoItemData} from '../dataTypes/TodoItemData';
 import {TodoService} from '../todo.service';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 type FCT_FILTER_ITEMS = (item : TodoItemData) => boolean;
 
@@ -19,6 +20,8 @@ export class TodoListComponent implements OnInit {
   filterDone: FCT_FILTER_ITEMS = (item)=>item.isDone;
   filterUnDone: FCT_FILTER_ITEMS = (item)=>!item.isDone;
   currentFilter = this.filterAll;
+  
+  faTrashAlt = faTrashAlt;
 
   getFilteredItems():TodoItemData[]{
     return this.data ? this.data.items.filter(this.currentFilter) : [];
@@ -74,5 +77,9 @@ export class TodoListComponent implements OnInit {
   toggleAllDone() {
     const done=!this.isAllDone();
     this.todoService.setItemsDone(done, ...this.items);
+  }
+
+  deleteAllItems() {
+    this.todoService.removeItems(...this.items.filter(this.filterAll));
   }
 }
