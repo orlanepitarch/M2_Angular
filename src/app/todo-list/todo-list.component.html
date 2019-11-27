@@ -25,7 +25,6 @@
             [ngModel]="isAllDone()"
             (ngModelChange)="toggleAllDone()"
     />
-    <fa-icon class="delete-all" size="2x" [icon]="faTrashAlt" (click)="deleteAllItems()"></fa-icon>
     <ul class="todo-list">
         <li  *ngFor="let item of getFilteredItems()" [class.editing]="itemCompo.voirEdit" [class.completed]="item.isDone">
           <app-todo-item #itemCompo [data]="item"></app-todo-item>
@@ -33,6 +32,11 @@
     </ul>
   </section>
 
+  <div class="icones">
+      <fa-icon class="delete-all" size="2x" [icon]="faTrashAlt" (click)="deleteAllItems()"></fa-icon>
+      <fa-icon [icon]="faUndo" size="2x" (click)="undo()"></fa-icon>
+      <fa-icon [icon]="faRedo" size="2x" (click)="redo()"></fa-icon>
+  </div>
 
   <footer class="footer">
     <span class="todo-count" ><strong>{{this.items.filter(this.filterUnDone).length}}</strong> restantes</span>

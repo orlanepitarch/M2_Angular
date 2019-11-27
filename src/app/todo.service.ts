@@ -8,6 +8,9 @@ export class TodoService {
 
   private todoListSubject = new BehaviorSubject<TodoListData>( {label: 'TodoList', items: []} );
 
+  private undo: TodoListData[] = [];
+  private redo: TodoListData[] = [];
+
   constructor() { 
     if(typeof localStorage!='undefined' && localStorage.getItem('todoList')!==null) {
       // Récupération de la valeur dans web storage (JSON donc à parser)
@@ -16,7 +19,14 @@ export class TodoService {
         label: tdl.label,
         items: tdl.items
       });
+
+      // if (localStorage.getItem('undo') !== null && localStorage.getItem('redo') !==null) {
+      //   this.undo = JSON.parse(localStorage.getItem('undo'));
+      //   this.redo = JSON.parse(localStorage.getItem('redo'));
+      // }
     }
+    console.log(this.undo);
+    console.log(this.redo);
   }
 
   getTodoListDataObserver(): Observable<TodoListData> {
@@ -30,7 +40,7 @@ export class TodoService {
       items: tdl.items.map( I => items.indexOf(I) === -1 ? I : ({label, isDone: I.isDone}) )
     });
     // sauvegarde l'état de la liste dans le localStorage
-    this.save();
+    this.saveUndo(tdl);
   }
 
   setItemsDone(isDone: boolean, ...items: TodoItemData[] ) {
@@ -39,7 +49,7 @@ export class TodoService {
       label: tdl.label,
       items: tdl.items.map( I => items.indexOf(I) === -1 ? I : ({label: I.label, isDone}) )
     });
-    this.save();
+    this.saveUndo(tdl);
   }
 
   appendItems( ...items: TodoItemData[] ) {
@@ -48,7 +58,7 @@ export class TodoService {
       label: tdl.label, // ou on peut écrire: ...tdl,
       items: [...tdl.items, ...items]
     });
-    this.save();
+    this.saveUndo(tdl);
   }
 
   removeItems( ...items: TodoItemData[] ) {
@@ -57,7 +67,7 @@ export class TodoService {
       label: tdl.label, // ou on peut écrire: ...tdl,
       items: tdl.items.filter( I => items.indexOf(I) === -1 )
     });
-    this.save();
+    this.saveUndo(tdl);
   }
 
   setTitle(title:string) {
@@ -66,12 +76,49 @@ export class TodoService {
       label: title,
       items: tdl.items
     });
-    this.save();
+    this.saveUndo(tdl);
+  }
+
+  undoFunction() {
+    if(this.undo.length!==0) {
+      // on insére la valeur actuelle dans la liste redo pour y revenir
+      this.redo.push(this.todoListSubject.getValue());
+      let last = this.undo.pop();
+      this.todoListSubject.next({
+        label: last.label,
+        items: last.items
+      })
+      console.log("undo");
+      console.log(this.undo);
+      console.log(this.redo);
+    }
+  }
+
+  redoFunction(){
+    console.log(this.redo);
+    if(this.redo.length!==0) {
+      this.undo.push(this.todoListSubject.getValue());
+      let last = this.redo.pop();
+      this.todoListSubject.next({
+        label: last.label,
+        items: last.items
+      })      
+    }
   }
 
   // sauvegarde dans le localStorage l'état de la todoList actuelle (on veut garder le format JSON donc à stringifier 
   // puis à parser dans le constructeur)
-  save() {    
+  saveUndo(tdl:TodoListData) {
+    // on insére dans la liste undo la valeur de la todoList précédente
+    this.undo.push(tdl); 
+    this.save();
+  }
+  save() {   
+    // stockage dans le localStorage
+    localStorage.setItem('undo', JSON.stringify(this.undo));
+    localStorage.setItem('redo', JSON.stringify(this.redo));
     localStorage.setItem( 'todoList', JSON.stringify(this.todoListSubject.getValue()) );
   }
+
+  
 }
