@@ -51,7 +51,8 @@ Executer `ng serve -o` pour démarrer le serveur. Aller à l'adresse `http://loc
   
 ### 3 : LocalStorage (sauvegarder les données localement)
 
-    Ajout d'une mémoire locale évoluant en fonction des changements de la liste. Si on actualise la page, la liste est dans l'état dans lequel on l'a précedemment laissé, ainsi que le titre de la liste et les Undo/Redo.
+    Ajout d'une mémoire locale évoluant en fonction des changements de la liste. Si on actualise la page, 
+    la liste est dans l'état dans lequel on l'a précedemment laissé, ainsi que le titre de la liste et les Undo/Redo.
 
 - Pour tester cette fonctionnalité : 
 
@@ -60,7 +61,8 @@ Executer `ng serve -o` pour démarrer le serveur. Aller à l'adresse `http://loc
 
 ### 4 : Reconnaissance Vocale 
 
-    Ajout d'une icône micro dans la barre d'ajout d'item. Reconnaissance vocale en français. Nécessité d'utiliser Google Chrome.
+    Ajout d'une icône micro dans la barre d'ajout d'item. Reconnaissance vocale en français. 
+    Nécessité d'utiliser Google Chrome.
 
 - Pour tester cette fonctionnalité : 
 
