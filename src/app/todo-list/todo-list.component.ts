@@ -37,10 +37,10 @@ export class TodoListComponent implements OnInit {
   @Input() private data: TodoListData;
 
   @ViewChild("newTextInputTitre", {static:false}) private inputTitre:ElementRef;
+  @ViewChild("newTodoInput", {static:false}) private inputTodo:ElementRef;
 
   private titre: string;
   private _voirEditTitre: boolean = false;
-  private speechData: string;
   
   get voirEditTitre(): boolean {
     return this._voirEditTitre;
@@ -52,7 +52,6 @@ export class TodoListComponent implements OnInit {
   constructor(private todoService: TodoService, private speechRecognitionService: SpeechRecognitionService) { 
     todoService.getTodoListDataObserver().subscribe(tdl => this.data = tdl);
     this.titre = this.data.label;
-    this.speechData = "";
   }
 
   ngOnInit() {
@@ -105,8 +104,8 @@ export class TodoListComponent implements OnInit {
         .subscribe(
         //listener
         (value) => {
-            this.speechData = value;
-            this.todoService.appendItems({label: this.speechData, isDone:false});
+            this.speechRecognitionService.DestroySpeechObject();
+            this.inputTodo.nativeElement.value = value;
         },
         //errror
         (err) => {
