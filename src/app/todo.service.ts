@@ -20,13 +20,11 @@ export class TodoService {
         items: tdl.items
       });
 
-      // if (localStorage.getItem('undo') !== null && localStorage.getItem('redo') !==null) {
-      //   this.undo = JSON.parse(localStorage.getItem('undo'));
-      //   this.redo = JSON.parse(localStorage.getItem('redo'));
-      // }
+      if (localStorage.getItem('undo') !== null && localStorage.getItem('redo') !==null) {
+        this.undo = JSON.parse(localStorage.getItem('undo'));
+        this.redo = JSON.parse(localStorage.getItem('redo'));
+      }
     }
-    console.log(this.undo);
-    console.log(this.redo);
   }
 
   getTodoListDataObserver(): Observable<TodoListData> {
@@ -88,9 +86,7 @@ export class TodoService {
         label: last.label,
         items: last.items
       })
-      console.log("undo");
-      console.log(this.undo);
-      console.log(this.redo);
+      this.save();
     }
   }
 
@@ -102,7 +98,8 @@ export class TodoService {
       this.todoListSubject.next({
         label: last.label,
         items: last.items
-      })      
+      })     
+      this.save(); 
     }
   }
 
@@ -117,7 +114,7 @@ export class TodoService {
     // stockage dans le localStorage
     localStorage.setItem('undo', JSON.stringify(this.undo));
     localStorage.setItem('redo', JSON.stringify(this.redo));
-    localStorage.setItem( 'todoList', JSON.stringify(this.todoListSubject.getValue()) );
+    localStorage.setItem('todoList', JSON.stringify(this.todoListSubject.getValue()) );
   }
 
   
