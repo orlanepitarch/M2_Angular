@@ -1,7 +1,5 @@
 # MIASHS-M2-TP3-Projet
 
-# MIASHS-M2-TP3-Projet
-
 ## Install & Build :
 
 Cloner ce dépôt git et se déplacer dedans :
