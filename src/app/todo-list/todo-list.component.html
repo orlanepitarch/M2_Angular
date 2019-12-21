@@ -10,7 +10,7 @@
               (blur)="title=newTextInputTitre.value"/>
     </form>
 </div>
-    <form (submit)="appendItem( newTodoInput.value); newTodoInput.value=''">
+    <form (submit)="appendItem(newTodoInput.value); newTodoInput.value=''">
       <input  #newTodoInput
               name        = "newTodoInput"
               class       = "new-todo"
@@ -33,6 +33,7 @@
   </section>
 
   <div class="icones">
+      <fa-icon [icon]="faMicro" title="Commencer la reconnaissance vocale" size="2x" (click)="startReco()"></fa-icon>
       <fa-icon class="delete-all" title="Supprimer tout" size="2x" [icon]="faTrashAlt" (click)="deleteAllItems()"></fa-icon>
       <fa-icon [icon]="faUndo" title="Undo" size="2x" (click)="undo()"></fa-icon>
       <fa-icon [icon]="faRedo" title="Redo" size="2x" (click)="redo()"></fa-icon>

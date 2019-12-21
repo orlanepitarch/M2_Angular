@@ -2,9 +2,11 @@ import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild, ElementRef
 import {TodoListData} from '../dataTypes/TodoListData';
 import {TodoItemData} from '../dataTypes/TodoItemData';
 import {TodoService} from '../todo.service';
+import {SpeechRecognitionService} from '../recovoc.service';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { faUndo } from '@fortawesome/free-solid-svg-icons';
 import { faRedo } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 type FCT_FILTER_ITEMS = (item : TodoItemData) => boolean;
 
 @Component({
@@ -26,6 +28,7 @@ export class TodoListComponent implements OnInit {
   faTrashAlt = faTrashAlt;
   faUndo = faUndo;
   faRedo = faRedo;
+  faMicro = faMicrophone;
 
   getFilteredItems():TodoItemData[]{
     return this.data ? this.data.items.filter(this.currentFilter) : [];
@@ -37,6 +40,7 @@ export class TodoListComponent implements OnInit {
 
   private titre: string;
   private _voirEditTitre: boolean = false;
+  private speechData: string;
   
   get voirEditTitre(): boolean {
     return this._voirEditTitre;
@@ -45,9 +49,10 @@ export class TodoListComponent implements OnInit {
     this._voirEditTitre = e;
     requestAnimationFrame(()=>this.inputTitre.nativeElement.focus());
   }
-  constructor(private todoService: TodoService) { 
+  constructor(private todoService: TodoService, private speechRecognitionService: SpeechRecognitionService) { 
     todoService.getTodoListDataObserver().subscribe(tdl => this.data = tdl);
     this.titre = this.data.label;
+    this.speechData = "";
   }
 
   ngOnInit() {
@@ -94,4 +99,24 @@ export class TodoListComponent implements OnInit {
   redo() {
     this.todoService.redoFunction();
   }
+
+  startReco(): void {
+    this.speechRecognitionService.record()
+        .subscribe(
+        //listener
+        (value) => {
+            this.speechData = value;
+            this.todoService.appendItems({label: this.speechData, isDone:false});
+        },
+        //errror
+        (err) => {
+            if (err.error == "no-speech") {
+                alert("Entrée micro non détectée");
+            }
+        },
+        //completion
+        () => {
+            this.speechRecognitionService.DestroySpeechObject();
+        });
+}
 }
