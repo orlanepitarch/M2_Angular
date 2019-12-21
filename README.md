@@ -80,6 +80,6 @@ Executer `ng serve -o` pour démarrer le serveur. Aller à l'adresse `http://loc
   2.  Se déplacer dans le dossier dist avec la commande `cd dist`
   3.  Exécuter `http-server`
   4.  Celui-ci doit vous retourner 2 adresses IP si tous se passe bien.
-  5.  Se rendre sur la 1ère fournie en l'écrivant dans votre navigateur sur téléphone. Ce dernier doit être sur le même réseau internet que l'ordinateur sur lequel vous lancez le serveur http.
+  5.  Ouvrir la 2ème dans votre navigateur web depuis votre ordinateur puis se rendre sur la 1ère fournie en l'écrivant dans votre navigateur sur téléphone. Ce dernier doit être sur le même réseau internet que l'ordinateur sur lequel vous lancez le serveur http.
   
 Probleme de compatibilité : l'édition des textes via le double-clic et la reconnaissance vocale ne fonctionne pas 
