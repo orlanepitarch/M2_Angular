@@ -9,6 +9,8 @@ import {TodoService} from './todo.service';
 import {SpeechRecognitionService} from './recovoc.service';
 import {FormsModule} from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -18,7 +20,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     TodoItemComponent
   ],
   imports: [
-    BrowserModule, FormsModule, FontAwesomeModule
+    BrowserModule, FormsModule, FontAwesomeModule, ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [TodoService, SpeechRecognitionService],
   bootstrap: [AppComponent]

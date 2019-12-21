@@ -11,9 +11,9 @@ import { TodoService } from '../todo.service';
 export class TodoItemComponent implements OnInit {
 
   @Input()
-  private data: TodoItemData;
+  protected data: TodoItemData;
 
-  private _voirEdit: boolean = false;
+  protected _voirEdit: boolean = false;
 
   @ViewChild("newTextInput", {static:false}) private inputLabel:ElementRef;
 
